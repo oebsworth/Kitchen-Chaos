@@ -7,31 +7,15 @@ public class Player : MonoBehaviour {
     // [SerializeField] means it can be edited in the editor. Without having to declare the variable as public.
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float turnSpeed = 10f;
-
+    // Link to the GameInput class.
+    [SerializeField] public GameInput gameInput;
     // Private variable of the type boolean called isWalking.
     private bool isWalking;
 
     private void Update() {
 
-        // Vector2 called inputVector, inizialised as a Vector2.zero.
-        Vector2 inputVector = new Vector2(0, 0);
-
-        // Old unity input system
-        if (Input.GetKey(KeyCode.W)) {
-            inputVector.y += 1;
-        } 
-        if (Input.GetKey(KeyCode.A)) {
-            inputVector.x -= 1;
-        } 
-        if (Input.GetKey(KeyCode.S)) {
-            inputVector.y -= 1;
-        } 
-        if (Input.GetKey(KeyCode.D)) {
-            inputVector.x += 1;
-        }
-
-        // Normalizes Vector so that it doesn't go faster when moving in 2 directions.
-        inputVector = inputVector.normalized;
+        // Recieves a normalized movement vector from the GameInput class.
+        Vector2 inputVector = gameInput.GetMovementVector();
 
         // New Vector3 that uses the inputVector to move on the x and z planes.
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
