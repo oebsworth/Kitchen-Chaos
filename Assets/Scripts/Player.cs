@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 
     // [SerializeField] means it can be edited in the editor. Without having to declare the variable as public.
     [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float turnSpeed = 10f;
 
     private void Update() {
 
@@ -31,8 +32,11 @@ public class Player : MonoBehaviour {
 
         // New Vector3 that uses the inputVector to move on the x and z planes.
         Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
-        // transform.position is the position of the gameobject that has the script attached. * by Time.deltaTime to make the movement fps independent.
+        // Transform.position is the position of the gameobject that has the script attached. * by Time.deltaTime to make the movement fps independent.
         transform.position += moveDir * moveSpeed * Time.deltaTime;
+
+        // Rotates the player so that they are facing forward. Also spherically interpolates between tranform.forward and moveDir using Time.deltaTime.
+        transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * turnSpeed);
 
     }
 
