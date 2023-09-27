@@ -154,6 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   turnSpeed: 10
+  playerRadius: 0.7
+  playerHeight: 2
   gameInput: {fileID: 719612581}
 --- !u!4 &310928042
 Transform:

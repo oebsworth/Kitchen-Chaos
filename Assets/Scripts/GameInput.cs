@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class GameInput : MonoBehaviour {
 
+    // Connects to the PlayerInputActions class.
     private PlayerInputActions playerInputActions;
 
+    // First function to run in unity.
     private void Awake() {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
