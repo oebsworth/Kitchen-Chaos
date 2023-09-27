@@ -18,8 +18,6 @@ public class GameInput : MonoBehaviour {
         // Vector2 called inputVector, recieves inputs from the new input system.
         Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
 
-        Debug.Log(inputVector);
-
         // Returns the inputVector to the Player class.
         return inputVector;
     }

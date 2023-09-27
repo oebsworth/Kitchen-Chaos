@@ -9,12 +9,51 @@ public class Player : MonoBehaviour {
     [SerializeField] private float turnSpeed = 10f;
     [SerializeField] private float playerRadius = 0.7f;
     [SerializeField] private float playerHeight = 2f;
+    // Layer mask for the counters.
+    [SerializeField] private LayerMask countersLayerMask;
     // Link to the GameInput class.
     [SerializeField] public GameInput gameInput;
     // Private variable of the type boolean called isWalking.
     private bool isWalking;
+    private Vector3 lastInteractDirection;
 
+    // Runs once per frame.
     private void Update() {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    // Function that returns the isWalking variable to where it was called from.
+    public bool IsWalking() {
+        return isWalking;
+    }
+
+    private void HandleInteractions() {
+        // Recieves a normalized movement vector from the GameInput class.
+        Vector2 inputVector = gameInput.GetMovementVector();
+
+        // New Vector3 that uses the inputVector to move on the x and z planes.
+        Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
+
+        // Sets the lastInteractDirection using moveDir if it isn't = to Vector3.zero.
+        if (moveDir != Vector3.zero) {
+            lastInteractDirection = moveDir;
+        }
+        float interactDistance = 2f;
+        // Shoots a raycast from transform.position in the direction of lastInteractDirection, outputs raycastHit, shoots with the distance of interactDistance. and uses a countersLayerMask.
+        if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, countersLayerMask)) {
+            // Trys to get the "ClearCounter" component from the gameobject that the raycast hit.
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
+                // Has a clear counter. Sends interact method to the ClearCounter class.
+                clearCounter.Interact();
+            }
+        } else {
+            // Otherwise debug.logs "-"
+            Debug.Log("-");
+        }
+    }
+
+    private void HandleMovement() {
 
         // Recieves a normalized movement vector from the GameInput class.
         Vector2 inputVector = gameInput.GetMovementVector();
@@ -60,11 +99,6 @@ public class Player : MonoBehaviour {
         // Rotates the player so that they are facing forward. Also spherically interpolates between tranform.forward and moveDir using Time.deltaTime.
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * turnSpeed);
 
-    }
-
-    // Function that returns the isWalking variable to where it was called from.
-    public bool IsWalking() {
-        return isWalking;
     }
 
 }
