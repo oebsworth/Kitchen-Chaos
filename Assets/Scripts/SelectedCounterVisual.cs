@@ -21,10 +21,12 @@ public class SelectedCounterVisual : MonoBehaviour {
         }
     }
 
+    // Shows the visualGameObject.
     private void Show() {
         visualGameObject.SetActive(true);
     }
 
+    // Hides the visualGameObject.
     private void Hide() {
         visualGameObject.SetActive(false);
     }
