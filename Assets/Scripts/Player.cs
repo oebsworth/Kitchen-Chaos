@@ -1,8 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour {
+
+    // Creates an "Instance" of the Player class.
+    public static Player Instance { get; private set; }
+
+    // Public event called OnSelectedCounterChanged, This is called when the player is in the interaction range of different counter to selectedCounter.
+    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+
+    // Strict EventArgs for the OnSelectedCounterChanged event.
+    public class OnSelectedCounterChangedEventArgs : EventArgs {
+        public ClearCounter selectedCounter;
+    }
 
     // [SerializeField] means it can be edited in the editor. Without having to declare the variable as public.
     [SerializeField] private float moveSpeed = 7f;
@@ -16,31 +28,27 @@ public class Player : MonoBehaviour {
     // Private variable of the type boolean called isWalking.
     private bool isWalking;
     private Vector3 lastInteractDirection;
+    private ClearCounter selectedCounter;
+
+    private void Awake() {
+        // Checks to see if there is only one Player instance.
+        if (Instance != null) {
+            Debug.LogError("This is more than one Player instance.");
+        }
+        // Sets the instance property to the Player class.
+        Instance = this;
+    }
 
     private void Start() {
+        // Adds a listener for the event OnInteractAction.
         gameInput.OnInteractAction += GameInput_OnInteractAction;
     }
 
+    // This is called when the OnInteractAction event is fired.
     private void GameInput_OnInteractAction(object sender, System.EventArgs e) {
-
-        // Recieves a normalized movement vector from the GameInput class.
-        Vector2 inputVector = gameInput.GetMovementVector();
-
-        // New Vector3 that uses the inputVector to move on the x and z planes.
-        Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
-
-        // Sets the lastInteractDirection using moveDir if it isn't = to Vector3.zero.
-        if (moveDir != Vector3.zero) {
-            lastInteractDirection = moveDir;
-        }
-        float interactDistance = 2f;
-        // Shoots a raycast from transform.position in the direction of lastInteractDirection, outputs raycastHit, shoots with the distance of interactDistance. and uses a countersLayerMask.
-        if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, countersLayerMask)) {
-            // Trys to get the "ClearCounter" component from the gameobject that the raycast hit.
-            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
-                // Has a clear counter. Sends interact method to the ClearCounter class.
-                clearCounter.Interact();
-            }
+        // Checks if there is a selected counter, if there is it calls Interact on the ClearCounter class.
+        if (selectedCounter != null) {
+            selectedCounter.Interact();
         }
 
     }
@@ -73,8 +81,14 @@ public class Player : MonoBehaviour {
             // Trys to get the "ClearCounter" component from the gameobject that the raycast hit.
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
                 // Has a clear counter. Sends interact method to the ClearCounter class.
-                // clearCounter.Interact();
+                if (clearCounter != selectedCounter) {
+                    SetSelectedCounter(clearCounter);
+                }
+            } else {
+                SetSelectedCounter(null);
             }
+        } else {
+            SetSelectedCounter(null);
         }
     }
 
@@ -124,6 +138,17 @@ public class Player : MonoBehaviour {
         // Rotates the player so that they are facing forward. Also spherically interpolates between tranform.forward and moveDir using Time.deltaTime.
         transform.forward = Vector3.Slerp(transform.forward, moveDir, Time.deltaTime * turnSpeed);
 
+    }
+
+     
+    private void SetSelectedCounter(ClearCounter selectedCounter) {
+        // Refactoring of the setting of selectedCounter
+        this.selectedCounter = selectedCounter;
+
+        // The event call for the OnSelectedCounterChanged event.
+        OnSelectedCounterChanged?.Invoke(this, new OnSelectedCounterChangedEventArgs {
+            selectedCounter = selectedCounter,
+        });
     }
 
 }
