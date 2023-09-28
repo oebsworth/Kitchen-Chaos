@@ -17,6 +17,34 @@ public class Player : MonoBehaviour {
     private bool isWalking;
     private Vector3 lastInteractDirection;
 
+    private void Start() {
+        gameInput.OnInteractAction += GameInput_OnInteractAction;
+    }
+
+    private void GameInput_OnInteractAction(object sender, System.EventArgs e) {
+
+        // Recieves a normalized movement vector from the GameInput class.
+        Vector2 inputVector = gameInput.GetMovementVector();
+
+        // New Vector3 that uses the inputVector to move on the x and z planes.
+        Vector3 moveDir = new Vector3(inputVector.x, 0, inputVector.y);
+
+        // Sets the lastInteractDirection using moveDir if it isn't = to Vector3.zero.
+        if (moveDir != Vector3.zero) {
+            lastInteractDirection = moveDir;
+        }
+        float interactDistance = 2f;
+        // Shoots a raycast from transform.position in the direction of lastInteractDirection, outputs raycastHit, shoots with the distance of interactDistance. and uses a countersLayerMask.
+        if (Physics.Raycast(transform.position, lastInteractDirection, out RaycastHit raycastHit, interactDistance, countersLayerMask)) {
+            // Trys to get the "ClearCounter" component from the gameobject that the raycast hit.
+            if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
+                // Has a clear counter. Sends interact method to the ClearCounter class.
+                clearCounter.Interact();
+            }
+        }
+
+    }
+
     // Runs once per frame.
     private void Update() {
         HandleMovement();
@@ -45,11 +73,8 @@ public class Player : MonoBehaviour {
             // Trys to get the "ClearCounter" component from the gameobject that the raycast hit.
             if (raycastHit.transform.TryGetComponent(out ClearCounter clearCounter)) {
                 // Has a clear counter. Sends interact method to the ClearCounter class.
-                clearCounter.Interact();
+                // clearCounter.Interact();
             }
-        } else {
-            // Otherwise debug.logs "-"
-            Debug.Log("-");
         }
     }
 
