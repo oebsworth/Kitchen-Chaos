@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c5d3be3550dd0f4781fc1bdfd998cea, type: 3}
   m_Name: Tomato
   m_EditorClassIdentifier: 
-  prefab: {fileID: 5515997366833979222, guid: 887d4f643d3828540a5d00fb22ac72ab, type: 3}
+  prefab: {fileID: 567065170055896399, guid: 887d4f643d3828540a5d00fb22ac72ab, type: 3}
   sprite: {fileID: 21300000, guid: 91e8fe3de9249fc44b7bdd8050062896, type: 3}
   objectName: Tomato
