@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bd854487d93ecf4da19e7fc9a9417e5, type: 3}
+  m_Script: {fileID: 11500000, guid: af23fe3b64004684781e51104507208a, type: 3}
   m_Name: Tomato-TomatoSlices
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: e77565954cc857c42a4af9bafa3932c0, type: 2}
