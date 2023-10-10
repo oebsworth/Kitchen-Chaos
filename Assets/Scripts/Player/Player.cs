@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private Vector3 lastInteractDirection;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
+    public event EventHandler OnPickedSomething;
 
     public static Player Instance
     {
@@ -159,6 +160,11 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         this.kitchenObject = kitchenObject;
+
+        if (kitchenObject != null)
+        {
+            OnPickedSomething?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public KitchenObject GetKitchenObject()
