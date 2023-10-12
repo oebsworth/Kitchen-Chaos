@@ -21,6 +21,19 @@ public class MusicManager : MonoBehaviour
         audioSource.volume = volume;
     }
 
+    private void Start()
+    {
+        GameManager.Instance.OnStateChanged += GameManager_OnStateChanged;
+}
+
+    private void GameManager_OnStateChanged(object sender, System.EventArgs e)
+    {
+        if (GameManager.Instance.IsGamePlaying())
+        {
+            audioSource.Play();
+        }
+    }
+
     public void ChangeVolume()
     {
         volume += 0.1f;
@@ -28,7 +41,7 @@ public class MusicManager : MonoBehaviour
         {
             volume = 0f;
         }
-        
+
         PlayerPrefs.SetFloat(PLAYER_PREFS_MUSIC_VOLUME, volume);
         PlayerPrefs.Save();
 

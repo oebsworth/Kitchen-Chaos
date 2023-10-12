@@ -24,6 +24,7 @@ public class GameInput : MonoBehaviour
         Gamepad_Pause,
     }
     private const string PLAYER_PREFS_BINDINGS = "InputBindings";
+    public event EventHandler OnBindingRebind;
 
     private void Awake()
     {
@@ -160,6 +161,8 @@ public class GameInput : MonoBehaviour
 
                  PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
                  PlayerPrefs.Save();
+
+                 OnBindingRebind?.Invoke(this, EventArgs.Empty);
              })
             .Start();
     }
