@@ -1,6 +1,6 @@
-# Project Title
+# Kitchen Chaos
 
-A brief description of your project.
+This game was built off of the CodeMonkey Beginner/Intermediate Tutorial. I fully understand all concepts within this game and have tried to showcase what I understand using comments.
 
 ## Table of Contents
 
