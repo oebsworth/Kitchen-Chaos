@@ -1,36 +1,21 @@
-# Kitchen Chaos
+![github-showcase](https://github.com/oebsworth/KitchenChaos/assets/45319805/cb0d8ec6-dc18-4104-8082-81aedd64eb70)
 
-This game was built off of the CodeMonkey Beginner/Intermediate Tutorial. I fully understand all concepts within this game and have tried to showcase what I understand using comments.
+---
 
-## Table of Contents
+## About
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+This project is a game called Kitchen Chaos, It was built using the Unity engine and a beginner/ intermediate tutorial by Code Monkey. I understand all the coding concepts that were used in this game. I have tried to showcase that I know what is happening with comments throughout the code.
 
-## Installation
+---
 
-Explain how to install your project, including any dependencies.
+## List of Tasks
 
-```bash
-npm install
-```
-
-## Usage
-
-```javascript
-const example = "Hello, World!";
-console.log(example);
-```
-
-## Contributing
-
-Explain how others can contribute to your project or provide guidelines for contributions.
-
-## License
-This project is licensed under the License Name - see the LICENSE.md file for details.
-
-```vbnet
-You can replace "Project Title," the sections, and the content within each section with information specific to your project. Markdown is a versatile way to format your README to make it more informative and visually appealing for users and contributors.
-```
+- Add the ability to swap ingredients that are in hand with ingredients that are on the counters.
+- Allow the player to pick up a plate while holding an ingredient.
+- Add a GO! after the 3, 2, 1 countdown.
+- Add a percent for loading into the game.
+- Add the option to lower the music and sound effects volume in settings.
+- Fix the pause between the music starting and the game playing.
+- Add music to the main menu.
+- Fix the build starting on the GameScene.
+- Add mobile device controls.
