@@ -19,3 +19,4 @@ This project is a game called Kitchen Chaos, It was built using the Unity engine
 - Add music to the main menu.
 - Fix the build starting on the GameScene.
 - Add mobile device controls.
+- Fix the close button in the options settings closing the UI without resetting the timeScale.
